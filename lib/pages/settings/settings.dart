@@ -3,6 +3,8 @@ import 'package:disable_battery_optimization/disable_battery_optimization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_notification_listener/flutter_notification_listener.dart';
 import 'package:get/get.dart';
+import 'package:pitm/i18n/i18n.dart';
+import 'package:unicons/unicons.dart';
 
 import '../add_rules/add_rules_controller.dart';
 
@@ -17,10 +19,10 @@ class SettingsPage extends StatelessWidget {
       body: ListView(
         padding: const EdgeInsets.only(top: 50),
         children: [
-          const ListTile(
+          ListTile(
             title: Text(
-              'Settings',
-              style: TextStyle(fontSize: 34),
+              'Settings'.tr,
+              style: const TextStyle(fontSize: 34),
             ),
           ),
           const SizedBox(height: 10),
@@ -41,7 +43,21 @@ class SettingsPage extends StatelessWidget {
                 ..._rulesController.rules
                     .map(
                       (element) => ListTile(
-                        onTap: () {},
+                        onTap: () {
+                          Get.toNamed('/add_rules', parameters: {
+                            "action": "update",
+                            "packageName": element.packageName
+                          });
+                        },
+                        trailing: InkWell(
+                          onTap: () {
+                            _rulesController.deleteRule(element);
+                          },
+                          child: Icon(
+                            UniconsLine.times,
+                            color: Colors.green[900],
+                          ),
+                        ),
                         leading: SizedBox(
                           width: 45,
                           height: 45,
@@ -62,12 +78,40 @@ class SettingsPage extends StatelessWidget {
           ),
           Column(
             children: [
-              const SizedBox(
+              SizedBox(
                 height: 40,
                 child: ListTile(
                   title: Text(
-                    "permission",
-                    style: TextStyle(fontSize: 14, color: Colors.green),
+                    "system".tr,
+                    style: const TextStyle(fontSize: 14, color: Colors.green),
+                  ),
+                ),
+              ),
+              ListTile(
+                onTap: () {
+                  String code = Get.locale!.languageCode;
+
+                  if (code.contains('en')) {
+                    Get.updateLocale(TranslationService.zhCN);
+                  }
+
+                  if (code.contains('zh')) {
+                    Get.updateLocale(TranslationService.enUS);
+                  }
+                },
+                title: const Text("Language"),
+                trailing: Text('_locale'.tr),
+              ),
+            ],
+          ),
+          Column(
+            children: [
+              SizedBox(
+                height: 40,
+                child: ListTile(
+                  title: Text(
+                    "permission".tr,
+                    style: const TextStyle(fontSize: 14, color: Colors.green),
                   ),
                 ),
               ),
@@ -75,7 +119,7 @@ class SettingsPage extends StatelessWidget {
                 onTap: () {
                   NotificationsListener.openPermissionSettings();
                 },
-                title: const Text("Notification listener permission"),
+                title: Text("Notification listener permission".tr),
               ),
               ListTile(
                 onTap: () async {
@@ -83,14 +127,14 @@ class SettingsPage extends StatelessWidget {
                       "Enable Auto Start",
                       "Follow the steps and enable the auto start of this app");
                 },
-                title: const Text("Auto start"),
+                title: Text("Auto start".tr),
               ),
               ListTile(
                 onTap: () async {
                   await DisableBatteryOptimization
                       .showDisableBatteryOptimizationSettings();
                 },
-                title: const Text("Battery optimization"),
+                title: Text("Battery optimization".tr),
               ),
               ListTile(
                 onTap: () async {
@@ -99,7 +143,7 @@ class SettingsPage extends StatelessWidget {
                           "Your device has additional battery optimization",
                           "Follow the steps and disable the optimizations to allow smooth functioning of this app");
                 },
-                title: const Text("Manufacturer specific Battery Optimization"),
+                title: Text("Manufacturer specific Battery Optimization".tr),
               ),
             ],
           )

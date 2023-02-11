@@ -1,5 +1,3 @@
-// import 'package:firebase_core/firebase_core.dart';
-// import 'package:flutter/foundation.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -19,8 +17,6 @@ void main() async {
   Hive.registerAdapter(RuleAdapter());
   Hive.registerAdapter(RecordAdapter());
 
-  // await GetStorage.init();
-
   await Sentry.init(
     (options) {
       options.dsn = kReleaseMode ? SENTRY_DNS : '';
@@ -29,7 +25,6 @@ void main() async {
     appRunner: () async {
       Map<Permission, PermissionStatus> statuses = await [
         Permission.notification,
-        // Permission.storage,
       ].request();
 
       if (statuses.values.every((v) => v.isGranted)) {

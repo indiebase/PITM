@@ -19,7 +19,7 @@ class IndexPage extends GetView<IndexController> {
         floatingActionButton: FloatingActionButton(
           onPressed: () {
             // RuleF.selectedApp.value = null;
-            Get.toNamed('/add_rules');
+            Get.toNamed('/add_rules', parameters: {"action": "create"});
           },
           tooltip: 'Add match rules',
           child: const Icon(
@@ -28,14 +28,14 @@ class IndexPage extends GetView<IndexController> {
         ),
         bottomNavigationBar: Obx(
           () => NavigationBar(
-            destinations: const [
+            destinations: [
               NavigationDestination(
-                icon: Icon(UniconsLine.monitor_heart_rate),
-                label: 'Home',
+                icon: const Icon(UniconsLine.monitor_heart_rate),
+                label: 'Home'.tr,
               ),
               NavigationDestination(
-                icon: Icon(UniconsLine.setting),
-                label: 'Settings',
+                icon: const Icon(UniconsLine.setting),
+                label: 'Settings'.tr,
               )
             ],
             selectedIndex: controller.currentIndex.value,

@@ -12,53 +12,43 @@ import 'add_rules_controller.dart';
 class AddRulesPage extends GetView<RulesController> {
   AddRulesPage({super.key});
 
-  final _ruleFormController = Get.find<RuleFormController>();
+  final _ruleFormController = RuleFormController.to;
 
   _showDeviceApps(BuildContext context) {
     return showModalBottomSheet(
       context: context,
       isScrollControlled: true,
       builder: (BuildContext context) {
-        return FutureBuilder(
-          future: DeviceApps.getInstalledApplications(
-            includeAppIcons: true,
-          ),
-          builder: (BuildContext context, snapshot) {
-            if (snapshot.hasData) {
-              List<Application> apps = snapshot.data ?? [];
-              return FractionallySizedBox(
-                heightFactor: 0.9,
-                child: ListView.builder(
-                  padding: const EdgeInsets.only(top: 20),
-                  itemCount: apps.length,
-                  itemBuilder: (BuildContext context, int index) {
-                    ApplicationWithIcon app =
-                        apps[index] as ApplicationWithIcon;
+        return FractionallySizedBox(
+          heightFactor: 0.9,
+          child: ListView.builder(
+            shrinkWrap: true,
+            padding: const EdgeInsets.only(top: 20),
+            itemCount: _ruleFormController.deviceApps.length,
+            itemBuilder: (BuildContext context, int index) {
+              ApplicationWithIcon app = _ruleFormController.deviceApps[index];
 
-                    return ListTile(
-                      onTap: () {
-                        _ruleFormController.selectedApp.value = app;
-                        Get.back();
-                      },
-                      leading: SizedBox(
-                        width: 50,
-                        height: 50,
-                        child: CachedMemoryImage(
-                          bytes: app.icon,
-                          width: 50,
-                          height: 50,
-                          uniqueKey: app.packageName,
-                        ),
-                      ),
-                      title: Text(app.appName),
-                      subtitle: Text(app.packageName),
-                    );
-                  },
+              return ListTile(
+                onTap: () {
+                  _ruleFormController.clearTextField();
+                  _ruleFormController.selectedApp.value = app;
+                  Get.back();
+                },
+                leading: SizedBox(
+                  width: 50,
+                  height: 50,
+                  child: CachedMemoryImage(
+                    bytes: app.icon,
+                    width: 50,
+                    height: 50,
+                    uniqueKey: app.packageName,
+                  ),
                 ),
+                title: Text(app.appName),
+                subtitle: Text(app.packageName),
               );
-            }
-            return Container();
-          },
+            },
+          ),
         );
       },
     );
@@ -66,6 +56,8 @@ class AddRulesPage extends GetView<RulesController> {
 
   @override
   Widget build(BuildContext context) {
+    var action = Get.parameters["action"] as String;
+
     return GestureDetector(
       onTap: () => FocusScope.of(context).requestFocus(FocusNode()),
       child: Scaffold(
@@ -125,8 +117,8 @@ class AddRulesPage extends GetView<RulesController> {
                                     )
                                   ],
                                 )
-                              : const Text("选择应用",
-                                  style: TextStyle(fontSize: 16)),
+                              : Text("Select app".tr,
+                                  style: const TextStyle(fontSize: 16)),
                         ),
                       ),
                     ),
@@ -134,18 +126,18 @@ class AddRulesPage extends GetView<RulesController> {
                     TextFormField(
                       autofocus: false,
                       controller: _ruleFormController.matchPatternController,
-                      decoration: const InputDecoration(
-                        border: OutlineInputBorder(),
-                        labelText: "匹配规则",
-                        helperText: "请使用正则表达式",
+                      decoration: InputDecoration(
+                        border: const OutlineInputBorder(),
+                        labelText: "Match rule".tr,
+                        helperText: "Enter regular expression".tr,
                       ),
                       // 校验用户名
                       validator: _ruleFormController.validator,
                     ),
-                    const SizedBox(height: 20),
-                    const Text(
-                      "回调使用http方法",
-                      style: TextStyle(fontSize: 12),
+                    const SizedBox(height: 15),
+                    Text(
+                      "Http method".tr,
+                      style: const TextStyle(fontSize: 12),
                     ),
                     Obx(
                       () => Row(
@@ -167,36 +159,15 @@ class AddRulesPage extends GetView<RulesController> {
                             .toList(),
                       ),
                     ),
-                    const SizedBox(height: 20),
                     TextFormField(
                       controller: _ruleFormController.callbackController,
-                      decoration: const InputDecoration(
-                        border: OutlineInputBorder(),
-                        labelText: "回调地址",
+                      decoration: InputDecoration(
+                        border: const OutlineInputBorder(),
+                        labelText: "callback url".tr,
                       ),
                       // 校验用户名
                       validator: _ruleFormController.validator,
                     ),
-                    // Row(
-                    //   children: [
-                    //     Expanded(
-                    //       flex: 1,
-                    //       child: TextFormField(
-                    //         autofocus: false,
-                    //         initialValue: "callbackUrl",
-                    //         decoration: const InputDecoration(
-                    //           border: OutlineInputBorder(),
-                    //           labelText: "请求字段",
-                    //         ),
-                    //         validator: (v) {},
-                    //       ),
-                    //     ),
-                    //     const SizedBox(width: 5),
-                    //     const Text(":"),
-                    //     const SizedBox(width: 10),
-
-                    //   ],
-                    // )
                   ],
                 ),
               ),
@@ -205,22 +176,34 @@ class AddRulesPage extends GetView<RulesController> {
         ),
         // floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
         floatingActionButton: FloatingActionButton.extended(
-          onPressed: () {
+          onPressed: () async {
             Rule? rule = _ruleFormController.submit();
-            if (rule != null) {
-              if (controller.addRule(rule)) {
+            if (rule == null) {
+              return;
+            }
+            switch (action) {
+              case "create":
+                bool result = await controller.addRule(rule);
+                if (result) {
+                  Get.back();
+                } else {
+                  Fluttertoast.showToast(msg: "${rule.packageName} has exist");
+                }
+                break;
+              case "update":
+                await controller.updateRule(rule);
+
                 Get.back();
-              } else {
-                Fluttertoast.showToast(msg: "${rule.packageName} has exist");
-              }
+                break;
+              default:
             }
           },
           tooltip: 'Add match rules',
           icon: const Icon(
             UniconsLine.check,
           ),
-          label: const Text(
-            'Done',
+          label: Text(
+            action == "create" ? 'Done'.tr : "Update".tr,
           ),
         ),
       ),

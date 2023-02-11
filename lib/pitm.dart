@@ -5,12 +5,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_notification_listener/flutter_notification_listener.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:pitm/models/record.dart';
 import 'package:pitm/pages/add_rules/add_rules_controller.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:get/get.dart';
 import 'i18n/i18n.dart';
 import 'constants.dart';
+import 'models/rule.dart';
 import 'notification_utils.dart';
+import 'pages/home/watcher_controller.dart';
 import 'routes.dart';
 import 'theme.dart';
 
@@ -35,9 +38,53 @@ class _PITMState extends State<PITM> {
     send?.send(event);
   }
 
-  static void _handleNotificationListener(NotificationEvent event) {
-    print(event);
-    print(1);
+  static _requestCallback(Rule rule, Record record) async {
+    var r = record.toMap();
+    switch (rule.callbackHttpMethod) {
+      case "GET":
+        await GetConnect().get(rule.callbackUrl, query: r);
+        break;
+      case "POST":
+        await GetConnect().post(rule.callbackUrl, r);
+        break;
+      case "PUT":
+        await GetConnect().put(rule.callbackUrl, r);
+        break;
+    }
+  }
+
+  // Note Bene: In some distros will trigger twice.
+  static void _handleNotificationListener(NotificationEvent event) async {
+    if (event.title == null) {
+      return;
+    }
+    var rules = RulesController.to.rules;
+    var watcher = WatcherController.to;
+
+    Rule? rule = rules.firstWhereOrNull(
+        (element) => element.packageName == event.packageName);
+
+    String matchString = '${event.title}&&${event.text ?? ''}';
+
+    if (rule != null) {
+      var amount = RegExp(
+        rule.matchPattern,
+        caseSensitive: false,
+        multiLine: false,
+      ).firstMatch(matchString)?.group(0);
+      Record record = Record()
+        ..amount = amount ?? '0'
+        ..appName = rule.appName
+        ..packageName = rule.packageName
+        ..notificationText = event.text ?? ''
+        ..notificationTitle = event.title ?? ''
+        ..timestamp = event.timestamp ?? 0
+        ..createTime = event.createAt!
+        ..uid = event.uniqueId ?? '';
+
+      await watcher.addRecord(record);
+      await _requestCallback(rule, record);
+    }
   }
 
   void _initListener() {
@@ -53,6 +100,7 @@ class _PITMState extends State<PITM> {
   @override
   void initState() {
     super.initState();
+    Get.put(WatcherController());
     Get.put(RulesController(), permanent: true);
     _initListener();
   }

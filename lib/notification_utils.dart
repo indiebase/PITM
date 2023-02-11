@@ -8,8 +8,8 @@ class LocalNotification {
   static Future<void> init() async {
     plugin = FlutterLocalNotificationsPlugin();
     var android = const AndroidInitializationSettings('notification');
-    var initSetttings = InitializationSettings(android: android);
-    await plugin?.initialize(initSetttings);
+    var initSettings = InitializationSettings(android: android);
+    await plugin?.initialize(initSettings);
   }
 
   static Future<void> showNotification({
