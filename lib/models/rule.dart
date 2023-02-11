@@ -11,7 +11,6 @@ class Rule extends HiveObject {
   @HiveField(1)
   late String packageName;
 
-
   @HiveField(2)
   late String callbackUrl;
 

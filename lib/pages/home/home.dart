@@ -37,7 +37,7 @@ class HomePage extends StatelessWidget {
                     FilledButton.tonalIcon(
                       onPressed: _watcherController.exportXlsx,
                       icon: const Icon(UniconsLine.history),
-                      label:  Text(
+                      label: Text(
                         "Export History".tr,
                         style: const TextStyle(fontSize: 16),
                       ),
