@@ -80,6 +80,18 @@ android {
             signingConfig signingConfigs.debug
         }
     }
+
+    project.ext.versionCodes = ['armeabi-v7a': 1, 'arm64-v8a': 2, 'x86_64': 3]
+
+    applicationVariants.all { variant ->
+        variant.outputs.all { output ->
+            def formattedDate = new Date().format('yyyy-MM-dd_HH-mm-ss')
+            def abi = output.getFilter(com.android.build.OutputFile.ABI)
+      
+            output.versionCodeOverride = project.ext.versionCodes.get(abi, 0) * 10000 + variant.versionCode
+            outputFileName = "pitm" + "-" + buildType.name + "-" + formattedDate + "-v" + defaultConfig.versionName + "+" + output.versionCodeOverride + '-' + abi + ".apk";
+        }
+    }
 }
 
 flutter {
