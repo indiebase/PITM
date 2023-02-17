@@ -1,5 +1,5 @@
 name: pitm
-version: 0.0.1-alpha.2
+version: 0.0.1
 publish_to: none
 description: A watcher client that makes you don't need to register a company to access payments. Support WeChat Pay, Alipay, PayPal.
 environment:

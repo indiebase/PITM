@@ -3,7 +3,6 @@ name: PITM release
 on:
   push:
     tags:
-      - "!v*.*.*-alpha*"
       - "v*.*.*"
 
 jobs:
@@ -50,11 +49,14 @@ jobs:
         uses: jmgilman/actions-generate-checksum@v1
         with:
           method: sha256
-          output: build/app/outputs/apk/release/checksum.txt
           patterns: |
             build/app/outputs/apk/release/*.apk
 
       - name: Release
-        uses: ncipollo/release-action@v1
+        uses: softprops/action-gh-release@v1
         with:
-          artifacts: "build/app/outputs/bundle/release/*.aab,build/app/outputs/apk/release/*.apk"
+          prerelease: ${{ contains(github.ref_name, 'alpha') || contains(github.ref_name, 'beta') }}
+          files: |
+            checksum.txt
+            build/app/outputs/bundle/release/*.aab
+            build/app/outputs/apk/release/*
