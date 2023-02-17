@@ -45,8 +45,16 @@ jobs:
       - run: flutter build apk --split-per-abi
       - run: flutter build appbundle
 
+      - name: Generate checksum
+        uses: jmgilman/actions-generate-checksum@v1
+        with:
+          method: sha256
+          output: build/app/outputs/apk/release/checksum.txt
+          patterns: |
+            build/app/outputs/apk/release/*.apk
+
       - name: Pre release
         uses: ncipollo/release-action@v1
         with:
-          artifacts: "build/app/outputs/bundle/release/*.aab,build/app/outputs/apk/release/*.apk"
+          artifacts: "build/app/outputs/bundle/release/*,build/app/outputs/apk/release/*.apk"
           prerelease: true

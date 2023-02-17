@@ -249,6 +249,14 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "6.1.4"
+  file_utils:
+    dependency: transitive
+    description:
+      name: file_utils
+      sha256: d1e64389a22649095c8405c9e177272caf05139255931c9ff30d53b5c9bcaa34
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "1.0.1"
   firebase_analytics:
     dependency: "direct main"
     description:
@@ -424,6 +432,14 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "2.1.1"
+  globbing:
+    dependency: transitive
+    description:
+      name: globbing
+      sha256: "4f89cfaf6fa74c9c1740a96259da06bd45411ede56744e28017cc534a12b6e2d"
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "1.0.0"
   graphs:
     dependency: transitive
     description:
@@ -576,6 +592,14 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "2.0.1"
+  ota_update:
+    dependency: "direct main"
+    description:
+      name: ota_update
+      sha256: "03d53c11e45eeacc9c49c949d71a2e1b621e8133406a32a51fe308dc38c92dee"
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "4.0.2"
   package_config:
     dependency: transitive
     description:
@@ -917,6 +941,14 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "3.0.1"
+  system_info2:
+    dependency: "direct main"
+    description:
+      name: system_info2
+      sha256: e9a8b4286571b8e9836adb3b5be247f6be0f404601c0a611c3c8f6879c6b7704
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "3.0.1"
   term_glyph:
     dependency: transitive
     description:
@@ -1045,6 +1077,14 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "2.1.4"
+  version:
+    dependency: "direct main"
+    description:
+      name: version
+      sha256: "3d4140128e6ea10d83da32fef2fa4003fccbf6852217bb854845802f04191f94"
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "3.0.2"
   wakelock:
     dependency: "direct main"
     description:

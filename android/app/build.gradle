@@ -82,7 +82,7 @@ android {
             def abi = output.getFilter(com.android.build.OutputFile.ABI)
       
             output.versionCodeOverride = project.ext.versionCodes.get(abi, 0) * 10000 + variant.versionCode
-            outputFileName = "pitm" + "-" + buildType.name + "-" + formattedDate + "-v" + defaultConfig.versionName + "+" + output.versionCodeOverride + '-' + abi + ".apk";
+            outputFileName = "pitm" + "-" + buildType.name + "-v" + defaultConfig.versionName + '-' + abi + ".apk";
         }
     }
 }

@@ -10,7 +10,7 @@ const String WECHAT_PAY_MATCH_RULE = r"(\d+(\.)?\d*)(?=元)";
 
 // !!!!!!!!!!!!!!!Only could follow and unfollow users!!!!!!!!!!!!!!!!!!!!!!!!!
 const String readFollowersOnlyToken =
-    "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";
+    "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";
 // !!!!!!!!!!!!!!!Only could follow and unfollow users!!!!!!!!!!!!!!!!!!!!!!!!!
 
 const String documentsDirectory = '/storage/emulated/0/Documents/PITM';

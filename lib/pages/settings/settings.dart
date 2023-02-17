@@ -3,18 +3,44 @@ import 'package:disable_battery_optimization/disable_battery_optimization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_notification_listener/flutter_notification_listener.dart';
 import 'package:get/get.dart';
-import 'package:pitm/i18n/i18n.dart';
+import 'package:pitm/pages/add_rules/add_rules_controller.dart';
+import 'package:pitm/pages/settings/settings_controller.dart';
 import 'package:unicons/unicons.dart';
 
-import '../add_rules/add_rules_controller.dart';
-
-class SettingsPage extends StatelessWidget {
+class SettingsPage extends GetView<SettingsController> {
   SettingsPage({super.key});
 
   final RulesController _rulesController = RulesController.to;
 
   @override
   Widget build(BuildContext context) {
+    ListTile updateTile = ListTile(
+      onTap: controller.checkUpdate,
+      title: Text("Update".tr),
+      trailing: controller.hasNewVersion()
+          ? Wrap(
+              crossAxisAlignment: WrapCrossAlignment.center,
+              alignment: WrapAlignment.center,
+              children: [
+                Container(
+                  padding: const EdgeInsets.only(
+                      top: 2, bottom: 2, left: 5, right: 5),
+                  decoration: BoxDecoration(
+                    color: Colors.amber[300],
+                    borderRadius: const BorderRadius.all(Radius.circular(1000)),
+                  ),
+                  child: const Text(
+                    'New',
+                    style: TextStyle(color: Colors.white, fontSize: 12),
+                  ),
+                ),
+                const SizedBox(width: 8),
+                Text(controller.latestVersion.string)
+              ],
+            )
+          : Text(controller.currentVersion.string),
+    );
+
     return Scaffold(
       body: ListView(
         padding: const EdgeInsets.only(top: 50),
@@ -88,20 +114,11 @@ class SettingsPage extends StatelessWidget {
                 ),
               ),
               ListTile(
-                onTap: () {
-                  String code = Get.locale!.languageCode;
-
-                  if (code.contains('en')) {
-                    Get.updateLocale(TranslationService.zhCN);
-                  }
-
-                  if (code.contains('zh')) {
-                    Get.updateLocale(TranslationService.enUS);
-                  }
-                },
+                onTap: controller.setLanguage,
                 title: const Text("Language"),
                 trailing: Text('_locale'.tr),
               ),
+              updateTile,
             ],
           ),
           Column(

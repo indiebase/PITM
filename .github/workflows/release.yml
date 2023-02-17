@@ -46,6 +46,14 @@ jobs:
       - run: flutter build apk --split-per-abi
       - run: flutter build appbundle
 
+      - name: Generate checksum
+        uses: jmgilman/actions-generate-checksum@v1
+        with:
+          method: sha256
+          output: build/app/outputs/apk/release/checksum.txt
+          patterns: |
+            build/app/outputs/apk/release/*.apk
+
       - name: Release
         uses: ncipollo/release-action@v1
         with:

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:pitm/pages/settings/settings_binding.dart';
 
 import '../home/home.dart';
 import '../settings/settings.dart';
@@ -25,6 +26,7 @@ class IndexController extends GetxController {
           settings: settings,
           transition: Transition.leftToRight,
           page: () => HomePage(),
+          binding: SettingsBinding(),
         );
       case '/settings':
         return GetPageRoute(
