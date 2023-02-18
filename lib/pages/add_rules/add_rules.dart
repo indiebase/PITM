@@ -21,33 +21,35 @@ class AddRulesPage extends GetView<RulesController> {
       builder: (BuildContext context) {
         return FractionallySizedBox(
           heightFactor: 0.9,
-          child: ListView.builder(
-            shrinkWrap: true,
-            padding: const EdgeInsets.only(top: 20),
-            itemCount: _ruleFormController.deviceApps.length,
-            itemBuilder: (BuildContext context, int index) {
-              ApplicationWithIcon app = _ruleFormController.deviceApps[index];
+          child: Obx(
+            () => ListView.builder(
+              shrinkWrap: true,
+              padding: const EdgeInsets.only(top: 20),
+              itemCount: _ruleFormController.deviceApps.length,
+              itemBuilder: (BuildContext context, int index) {
+                ApplicationWithIcon app = _ruleFormController.deviceApps[index];
 
-              return ListTile(
-                onTap: () {
-                  _ruleFormController.clearTextField();
-                  _ruleFormController.selectedApp.value = app;
-                  Get.back();
-                },
-                leading: SizedBox(
-                  width: 50,
-                  height: 50,
-                  child: CachedMemoryImage(
-                    bytes: app.icon,
+                return ListTile(
+                  onTap: () {
+                    _ruleFormController.clearTextField();
+                    _ruleFormController.selectedApp.value = app;
+                    Get.back();
+                  },
+                  leading: SizedBox(
                     width: 50,
                     height: 50,
-                    uniqueKey: app.packageName,
+                    child: CachedMemoryImage(
+                      bytes: app.icon,
+                      width: 50,
+                      height: 50,
+                      uniqueKey: app.packageName,
+                    ),
                   ),
-                ),
-                title: Text(app.appName),
-                subtitle: Text(app.packageName),
-              );
-            },
+                  title: Text(app.appName),
+                  subtitle: Text(app.packageName),
+                );
+              },
+            ),
           ),
         );
       },

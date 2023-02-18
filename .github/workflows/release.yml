@@ -46,11 +46,9 @@ jobs:
       - run: flutter build appbundle
 
       - name: Generate checksum
-        uses: jmgilman/actions-generate-checksum@v1
-        with:
-          method: sha256
-          patterns: |
-            build/app/outputs/apk/release/*.apk
+        run: |
+          cd build/app/outputs/apk/release/
+          for file in *; do hash=$(sha256sum "$file" | cut -d' ' -f1); echo ${hash} > "${hash}_${file%.*}.sha256"; done
 
       - name: Release
         uses: softprops/action-gh-release@v1
