@@ -64,7 +64,30 @@ class HomePage extends StatelessWidget {
                     style: const TextStyle(fontSize: 12, color: Colors.grey),
                   ),
                 ),
-              )
+              ),
+              _watcherController.records.isEmpty
+                  ? SizedBox(
+                      height: Get.height - 300,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(
+                            UniconsLine.square_full,
+                            size: 30,
+                            color: Colors.green.shade800,
+                          ),
+                          const SizedBox(width: 5),
+                          Text(
+                            'Empty',
+                            style: TextStyle(
+                              fontSize: 18,
+                              color: Colors.green.shade400,
+                            ),
+                          )
+                        ],
+                      ),
+                    )
+                  : Container(),
             ],
           );
         }),

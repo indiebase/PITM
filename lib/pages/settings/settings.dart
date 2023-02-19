@@ -35,10 +35,10 @@ class SettingsPage extends GetView<SettingsController> {
                   ),
                 ),
                 const SizedBox(width: 8),
-                Text(controller.latestVersion.string)
+                Text('v${controller.latestVersion.string}')
               ],
             )
-          : Text(controller.currentVersion.string),
+          : Text('v${controller.currentVersion.string}'),
     );
 
     return Scaffold(

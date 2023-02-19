@@ -561,7 +561,7 @@ packages:
     source: hosted
     version: "1.1.1"
   markdown:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: markdown
       sha256: b3c60dee8c2af50ad0e6e90cceba98e47718a6ee0a7a6772c77846a0cc21f78b
@@ -600,21 +600,14 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "1.0.4"
-  notifications:
-    dependency: "direct main"
-    description:
-      name: notifications
-      sha256: "875b802ca105dcac01e380b9b25154a3bfaf2b899be8e2dd9df467255ad14b16"
-      url: "https://pub.flutter-io.cn"
-    source: hosted
-    version: "2.0.1"
   ota_update:
     dependency: "direct main"
     description:
-      name: ota_update
-      sha256: "03d53c11e45eeacc9c49c949d71a2e1b621e8133406a32a51fe308dc38c92dee"
-      url: "https://pub.flutter-io.cn"
-    source: hosted
+      path: "."
+      ref: master
+      resolved-ref: "01cb9a2b379e3aec5f633d10e18d0687c1a73ded"
+      url: "https://github.com/TechGeekD/ota_update.git"
+    source: git
     version: "4.0.2"
   package_config:
     dependency: transitive
