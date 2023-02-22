@@ -23,5 +23,6 @@ const Map<String, String> en_US = {
       'Note Bene! This app requires notification listener permission and battery optimization turned off to work.',
   'Battery Optimization !': 'Battery Optimization !',
   'Notification Listener': 'Notification Listener',
-  'Start listen': 'Start listen',
+  'Start listening': 'Start listening',
+  'Clear records': 'Clear records',
 };

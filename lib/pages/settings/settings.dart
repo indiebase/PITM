@@ -7,10 +7,13 @@ import 'package:pitm/pages/add_rules/add_rules_controller.dart';
 import 'package:pitm/pages/settings/settings_controller.dart';
 import 'package:unicons/unicons.dart';
 
+import '../home/watcher_controller.dart';
+
 class SettingsPage extends GetView<SettingsController> {
   SettingsPage({super.key});
 
   final RulesController _rulesController = RulesController.to;
+  final watcher = WatcherController.to;
 
   @override
   Widget build(BuildContext context) {
@@ -117,6 +120,10 @@ class SettingsPage extends GetView<SettingsController> {
                 onTap: controller.setLanguage,
                 title: const Text("Language"),
                 trailing: Text('_locale'.tr),
+              ),
+              ListTile(
+                onTap: watcher.clearRecords,
+                title: Text("Clear records".tr),
               ),
               updateTile,
             ],

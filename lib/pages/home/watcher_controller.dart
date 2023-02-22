@@ -61,6 +61,12 @@ class WatcherController extends GetxController {
     await recordsBox.add(record);
   }
 
+  Future<void> clearRecords() async {
+    records.value = [];
+    records2.value = [];
+    await recordsBox.clear();
+  }
+
   @override
   void onInit() async {
     super.onInit();

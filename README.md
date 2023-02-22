@@ -7,7 +7,18 @@
   </a>
 </p>
 
-It's a watcher client that makes you don't need to register a company to access payments. Support WeChat Pay, Alipay, PayPal.
+It's a watcher client that makes you don't need to register a company to access payments. Support WeChat Pay, Alipay, PayPal(WIP).
+
+## Features
+
+- Notification listener.
+- Custom application and match rules.
+- Local export history(xlsx).
+- Material You.
 
 ## Getting Started
-1. 
+
+|  |  |  |
+| - | - | - |
+|  |  |  |
+|  |  |  |

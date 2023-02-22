@@ -82,8 +82,10 @@ class _PITMState extends State<PITM> {
         ..createTime = event.createAt!
         ..uid = event.uniqueId ?? '';
 
-      await watcher.addRecord(record);
-      await _requestCallback(rule, record);
+      if (amount != null && amount != '0') {
+        await watcher.addRecord(record);
+        await _requestCallback(rule, record);
+      }
     }
   }
 

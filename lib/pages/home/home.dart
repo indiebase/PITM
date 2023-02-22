@@ -28,7 +28,7 @@ class HomePage extends StatelessWidget {
                         label: Text(
                           _watcherController.isListening.value
                               ? "${"Listening".tr}..."
-                              : "Start listen".tr,
+                              : "Start listening".tr,
                           style: const TextStyle(fontSize: 16),
                         ),
                       ),

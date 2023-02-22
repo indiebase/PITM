@@ -22,5 +22,6 @@ Map<String, String> zh_CN = {
       '注意! 这个应用程序需要通知监听器许可和关闭电池优化才能工作。',
   'Battery Optimization !': '电池优化 !',
   'Notification Listener': '监听通知',
-  'Start listen': '开始监听',
+  'Start listening': '开始监听',
+  'Clear records': '清除记录',
 };
