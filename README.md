@@ -7,7 +7,7 @@
   </a>
 </p>
 
-It's a watcher client that makes you don't need to register a company to access payments. Support WeChat Pay, Alipay, PayPal(WIP).
+It's a watcher client for [letscollab](https://github.com/deskbtm-letscollab/letscollab) that makes you don't need to register a company to access payments. Support WeChat Pay, Alipay, PayPal(WIP).
 
 ## Features
 
