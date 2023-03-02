@@ -4,7 +4,6 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:pitm/models/rule.dart';
 import 'package:pitm/pages/add_rules/add_rules_controller.dart';
-
 import '../../constants.dart';
 
 enum HttpMethods { GET, POST, PUT }

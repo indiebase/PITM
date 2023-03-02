@@ -127,7 +127,7 @@ class WatcherController extends GetxController {
     Directory tmp = await getTemporaryDirectory();
     String tmpPath = '${tmp.path}/$nowString';
 
-    List<String> columeNames = [
+    List<String> columnNames = [
       "uid",
       "App Name",
       "Package Name",
@@ -153,17 +153,17 @@ class WatcherController extends GetxController {
         var start = i * c, end = records.length < e ? (records.length % c) : e;
         var recordList = exportRecords.getRange(start, end);
 
-        for (var k = 0; k < columeNames.length; k++) {
+        for (var k = 0; k < columnNames.length; k++) {
           final Range range =
               sheet.getRangeByName('${String.fromCharCode(65 + k)}1');
-          range.setText(columeNames[k]);
+          range.setText(columnNames[k]);
           range.autoFit();
         }
 
         for (var r = 0; r < recordList.length; r++) {
           Record record = recordList.elementAt(r);
 
-          for (var j = 0; j < columeNames.length; j++) {
+          for (var j = 0; j < columnNames.length; j++) {
             final Range range =
                 sheet.getRangeByName('${String.fromCharCode(65 + j)}${2 + r}');
             switch (j) {
