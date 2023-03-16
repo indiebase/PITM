@@ -1,93 +1,88 @@
----
-name: I have a problem with my Flutter application.
-about: You are writing an application with Flutter but the application is crashing
-  or throws an exception, a widget is buggy, or something looks wrong.
-title: ''
-labels: ''
-assignees: ''
+name: I am having difficulty installing Flutter or getting it to work
+description: You have run into problems while downloading or installing Flutter, or the
+  "flutter" tool is crashing, or you are running into some other issue before even
+  being able to use "flutter run".
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thank you for using Flutter!
 
----
+        If you are looking for support, please check out our documentation
+        or consider asking a question on Stack Overflow:
 
-<!-- Thank you for using Flutter!
+          - https://flutter.dev/
+          - https://api.flutter.dev/
+          - https://stackoverflow.com/questions/tagged/flutter?sort=frequent
 
-     If you are looking for support, please check out our documentation
-     or consider asking a question on Stack Overflow:
-      * https://flutter.dev/
-      * https://api.flutter.dev/
-      * https://stackoverflow.com/questions/tagged/flutter?sort=frequent
+        If you have found a bug or if our documentation doesn't have an answer
+        to what you're looking for, then fill out the template below.
+  - type: checkboxes
+    attributes:
+      label: Is there an existing issue for this?
+      description: Please search to see if an issue already exists for the bug you encountered.
+      options:
+      - label: I have searched the [existing issues](https://github.com/flutter/flutter/issues)
+        required: true
+      - label: I have read the [guide to filing a bug](https://flutter.dev/docs/resources/bug-reports)
+        required: true
+  - type: textarea
+    attributes:
+      label: Steps to reproduce
+      description: Please tell us exactly how to reproduce the problem you are running into.
+      placeholder: |
+        1. ...
+        2. ...
+        3. ...
+    validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: Actual results
+      description: Please tell us what is actually happening
+    validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: Logs
+      description: |
+        Include the full logs of the commands you are running between the lines
+        with the backticks below. If you are running any `flutter` commands,
+        please include the output of running them with `--verbose`; for example,
+        the output of running `flutter --verbose create foo`.
 
-     If you have found a bug or if our documentation doesn't have an answer
-     to what you're looking for, then fill out the template below. Please read
-     our guide to filing a bug first: https://flutter.dev/docs/resources/bug-reports
--->
+        If the logs are too large to be uploaded to Github, you may upload
+        them as a `txt` file or use online tools like https://pastebin.com to
+        share it.
 
-## Steps to Reproduce
+        Note: Please do not upload screenshots of text. Instead, use code blocks
+        or the above mentioned ways to upload logs.
+      value: |
+        <details>
+        <summary>Logs</summary>
 
-<!-- Please include full steps to reproduce so that we can reproduce the problem. -->
+        ```console
 
-1. Execute `flutter run` on the code sample <!-- (see "Code sample" section below) -->
-2. ... <!-- describe steps to demonstrate bug -->
-3. ... <!-- for example "Tap on X and see a crash" -->
+        <!-- Paste your logs here -->
 
-**Expected results:** <!-- what did you want to see? -->
+        ```
 
-**Actual results:** <!-- what did you see? -->
+        </details>
+  - type: textarea
+    attributes:
+      label: Flutter Doctor output
+      description: |
+        Please provide the full output of running `flutter doctor -v`
+      value: |
+        <details>
+        <summary>Doctor output</summary>
 
-<details>
-<summary>Code sample</summary>
+        ```console
 
-<!--
-      Please create a minimal reproducible sample that shows the problem
-      and attach it below between the lines with the backticks.
+        <!-- Paste your output here -->
 
-      To create it you can use `flutter create bug` command and update the `main.dart` file.
+        ```
 
-      Alternatively, you can use https://dartpad.dev/
-      which is capable of creating and running small Flutter apps.
-
-      Without this we will unlikely be able to progress on the issue, and because of that
-      we regretfully will have to close it.
--->
-
-```dart
-```
-
-</details>
-
-<details>
-  <summary>Logs</summary>
-
-<!--
-      Run your application with `flutter run --verbose` and attach all the
-      log output below between the lines with the backticks. If there is an
-      exception, please see if the error message includes enough information
-      to explain how to solve the issue. If there is a crash, please include
-      the entirety of the crash log including the backtrace.
--->
-
-```
-```
-
-<!--
-     Run `flutter analyze` and attach any output of that command below.
-     If there are any analysis errors, try resolving them before filing this issue.
--->
-
-```
-```
-
-<!-- Finally, paste the output of running `flutter doctor -v` here. -->
-
-```
-```
-
-</details>
-
-
-<!--
-      Consider also attaching screenshots and/or videos to better
-      illustrate the issue.
-
-      You can upload them directly on GitHub.
-      Beware that video file size is limited to 10MB.
--->
+        </details>
+    validations:
+      required: true
