@@ -1,5 +1,5 @@
 <a href="#" target="_blank" rel="noopener noreferrer">
-<img width="85" src="https://github.com/deskbtm-letscollab/PTIM/blob/dev/android/app/src/main/res/mipmap-xxxhdpi/ic_launcher_round.png?raw=true" alt="abyss" /></a>
+<img width="85" src="https://github.com/indiebase/PTIM/blob/dev/android/app/src/main/res/mipmap-xxxhdpi/ic_launcher_round.png?raw=true" alt="abyss" /></a>
 
 <p align="center">
   <a href="#" target="_blank" rel="noopener noreferrer">
@@ -7,7 +7,7 @@
   </a>
 </p>
 
-It's a watcher client for [letscollab](https://github.com/deskbtm-letscollab/letscollab) that makes you don't need to register a company to access payments. Support WeChat Pay, Alipay, PayPal(WIP).
+It's a watcher client for [letscollab](https://github.com/indiebase/letscollab) that makes you don't need to register a company to access payments. Support WeChat Pay, Alipay, PayPal(WIP).
 
 ## Features
 

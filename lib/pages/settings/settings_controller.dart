@@ -170,7 +170,7 @@ class SettingsController extends GetxController {
   }
 
   initGithubRelease() async {
-    GithubRelease? res = await fetchGithubRelease("deskbtm-letscollab", "PITM");
+    GithubRelease? res = await fetchGithubRelease("indiebase", "PITM");
 
     if (res != null) {
       release.value = res;
