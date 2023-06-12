@@ -1,16 +1,12 @@
 import 'package:get/get.dart';
-import 'package:get_storage/get_storage.dart';
-import 'package:hive/hive.dart';
 import 'package:pitm/models/rule.dart';
 
 class RulesController extends GetxController {
   static RulesController get to => Get.find();
 
-  final box = GetStorage();
-
   final rules = <Rule>[].obs;
 
-  late Box<Rule> rulesBox;
+  // late Box<Rule> rulesBox;
   Future<bool> addRule(Rule rule) async {
     if (rulesBox.values.where((element) {
       return element.packageName == rule.packageName;
@@ -25,18 +21,14 @@ class RulesController extends GetxController {
   }
 
   Future<void> updateRule(Rule rule) async {
-    int index = rulesBox.values
-        .toList()
-        .lastIndexWhere((element) => element.packageName == rule.packageName);
+    int index = rulesBox.values.toList().lastIndexWhere((element) => element.packageName == rule.packageName);
 
     await rulesBox.putAt(index, rule);
     rules[index] = rule;
   }
 
   Future<void> deleteRule(Rule rule) async {
-    int index = rulesBox.values
-        .toList()
-        .lastIndexWhere((element) => element.packageName == rule.packageName);
+    int index = rulesBox.values.toList().lastIndexWhere((element) => element.packageName == rule.packageName);
 
     await rulesBox.deleteAt(index);
     rules.removeAt(index);

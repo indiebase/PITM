@@ -32,8 +32,7 @@ class _PITMState extends State<PITM> {
   // prevent dart from stripping out this function on release build in Flutter 3.x
   @pragma('vm:entry-point')
   static void _callback(NotificationEvent event) {
-    final SendPort? send =
-        IsolateNameServer.lookupPortByName(NOTIFICATION_LISTENER);
+    final SendPort? send = IsolateNameServer.lookupPortByName(NOTIFICATION_LISTENER);
 
     send?.send(event);
   }
@@ -61,8 +60,7 @@ class _PITMState extends State<PITM> {
     var rules = RulesController.to.rules;
     var watcher = WatcherController.to;
 
-    Rule? rule = rules.firstWhereOrNull(
-        (element) => element.packageName == event.packageName);
+    Rule? rule = rules.firstWhereOrNull((element) => element.packageName == event.packageName);
 
     String matchString = '${event.title}&&${event.text ?? ''}';
 
@@ -93,8 +91,7 @@ class _PITMState extends State<PITM> {
     NotificationsListener.initialize(callbackHandle: _callback);
 
     IsolateNameServer.removePortNameMapping(NOTIFICATION_LISTENER);
-    IsolateNameServer.registerPortWithName(
-        _notificationPort.sendPort, NOTIFICATION_LISTENER);
+    IsolateNameServer.registerPortWithName(_notificationPort.sendPort, NOTIFICATION_LISTENER);
 
     _notificationPort.listen((message) => _handleNotificationListener(message));
   }
@@ -138,10 +135,7 @@ class _PITMState extends State<PITM> {
             translations: TranslationService(),
             locale: TranslationService.locale,
             fallbackLocale: TranslationService.fallbackLocale,
-            navigatorObservers: [
-              SentryNavigatorObserver(),
-              FirebaseAnalyticsObserver(analytics: FirebaseAnalytics.instance)
-            ],
+            navigatorObservers: [SentryNavigatorObserver(), FirebaseAnalyticsObserver(analytics: FirebaseAnalytics.instance)],
             initialRoute: '/',
             getPages: routes,
             theme: lightThemeData,
