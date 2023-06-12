@@ -18,7 +18,6 @@ class IndexPage extends GetView<IndexController> {
         ),
         floatingActionButton: FloatingActionButton(
           onPressed: () {
-            // RuleF.selectedApp.value = null;
             Get.toNamed('/add_rules', parameters: {"action": "create"});
           },
           tooltip: 'Add match rules',

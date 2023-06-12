@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:developer';
 import 'dart:io';
 import 'package:disable_battery_optimization/disable_battery_optimization.dart';
@@ -6,8 +7,8 @@ import 'package:flutter_archive/flutter_archive.dart';
 import 'package:flutter_notification_listener/flutter_notification_listener.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
-import 'package:hive/hive.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:pitm/utils.dart';
 import 'package:syncfusion_flutter_xlsio/xlsio.dart';
 import '../../constants.dart';
 import '../../models/record.dart';
@@ -15,7 +16,6 @@ import '../../models/record.dart';
 class WatcherController extends GetxController {
   static WatcherController get to => Get.find();
   final records = <Record>[].obs;
-  late Box<Record> recordsBox;
 
   /// This records2 is used for the HomeScreen, it will pop
   /// and push record when out of limit.
@@ -29,8 +29,7 @@ class WatcherController extends GetxController {
       contentPadding: const EdgeInsets.symmetric(horizontal: 25, vertical: 8),
       title: title,
       content: Text(
-        "Note Bene! This app requires notification listener permission and battery optimization turned off to work."
-            .tr,
+        "Note Bene! This app requires notification listener permission and battery optimization turned off to work.".tr,
         style: const TextStyle(fontSize: 16),
       ),
       confirm: TextButton(
@@ -58,50 +57,121 @@ class WatcherController extends GetxController {
       records2.add(record);
     }
 
-    await recordsBox.add(record);
+    // await recordsBox.add(record);
   }
 
   Future<void> clearRecords() async {
     records.value = [];
     records2.value = [];
-    await recordsBox.clear();
+    // await recordsBox.clear();
   }
 
   @override
   void onInit() async {
     super.onInit();
-    recordsBox = await Hive.openBox<Record>('records');
-    records.addAll(recordsBox.values);
 
-    await _permissionDialog();
-  }
-
-  _permissionDialog() async {
-    var hasPermission = await NotificationsListener.hasPermission ?? false;
-    bool isBatteryOptimizationDisabled =
-        await DisableBatteryOptimization.isBatteryOptimizationDisabled ?? false;
+    bool hasPermission = await _initPermission();
 
     if (hasPermission) {
-      await toggleNotificationService();
-    } else {
-      await showNB(
-          title: 'Notification Listener'.tr,
-          onConfirm: () {
-            NotificationsListener.openPermissionSettings();
-          });
+      log('Start permanent service android notification listener service');
+
+      // await _startPermanentService();
+      await startNotificationService();
+
+      Settings settings = getSettingInstance();
+
+      if (settings.ownedApp == null) {
+        Timer(const Duration(seconds: 5), () {
+          // _settingController.verifyOwnedApp();
+        });
+      }
     }
-    if (!isBatteryOptimizationDisabled) {
-      await showNB(
-        title: 'Battery Optimization !'.tr,
+
+    // recordsBox = await Hive.openBox<Record>('records');
+    // records.addAll(recordsBox.values);
+  }
+
+  static showNecessaryPermissionDialog({
+    VoidCallback? onConfirm,
+    required String title,
+    required WillPopCallback onWillPop,
+  }) {
+    return Get.defaultDialog(
+      onWillPop: onWillPop,
+      titlePadding: const EdgeInsets.only(top: 20),
+      titleStyle: const TextStyle(fontSize: 22),
+      contentPadding: const EdgeInsets.symmetric(horizontal: 25, vertical: 8),
+      title: title,
+      content: Text(
+        "Note Bene! This app requires notification listener permission and battery optimization turned off to work.".tr,
+        style: const TextStyle(fontSize: 16),
+      ),
+      confirm: TextButton(
+        child: const Text(
+          "Ok",
+          style: TextStyle(fontSize: 20),
+        ),
+        onPressed: () {
+          if (onConfirm != null) {
+            onConfirm();
+          }
+        },
+      ),
+    );
+  }
+
+  hasNotificationListenerPermission() async {
+    return await NotificationsListener.hasPermission ?? false;
+  }
+
+  hasBatteryOptimizationDisabledPermission() async {
+    return await DisableBatteryOptimization.isBatteryOptimizationDisabled ?? false;
+  }
+
+  Future<bool> _initPermission() async {
+    bool isNotificationListenerEnabled = await hasNotificationListenerPermission();
+    bool isBatteryOptimizationDisabled = await hasBatteryOptimizationDisabledPermission();
+
+    if (isNotificationListenerEnabled && isBatteryOptimizationDisabled) {
+      return true;
+    }
+
+    if (!isNotificationListenerEnabled) {
+      await showNecessaryPermissionDialog(
+        title: 'Notification Listener'.tr,
+        onWillPop: () async {
+          return await hasNotificationListenerPermission();
+        },
         onConfirm: () async {
-          await DisableBatteryOptimization
-              .showDisableBatteryOptimizationSettings();
+          if (await hasNotificationListenerPermission()) {
+            Get.back();
+          } else {
+            NotificationsListener.openPermissionSettings();
+          }
         },
       );
     }
+
+    if (!isBatteryOptimizationDisabled) {
+      await showNecessaryPermissionDialog(
+        title: 'Battery Optimization !'.tr,
+        onWillPop: () async {
+          return await hasBatteryOptimizationDisabledPermission();
+        },
+        onConfirm: () async {
+          if (await hasBatteryOptimizationDisabledPermission()) {
+            Get.back();
+          } else {
+            await DisableBatteryOptimization.showDisableBatteryOptimizationSettings();
+          }
+        },
+      );
+    }
+
+    return true;
   }
 
-  toggleNotificationService() async {
+  startNotificationService() async {
     var isRunning = await NotificationsListener.isRunning ?? false;
 
     if (!isRunning) {
@@ -122,18 +192,11 @@ class WatcherController extends GetxController {
     int c = 100;
     int n = (records.length / c).ceil();
     var now = DateTime.now();
-    String nowString =
-        '${now.year}-${now.month}-${now.day}_${now.hour}-${now.minute}-${now.second}_${UniqueKey().toString()}';
+    String nowString = '${now.year}-${now.month}-${now.day}_${now.hour}-${now.minute}-${now.second}_${UniqueKey().toString()}';
     Directory tmp = await getTemporaryDirectory();
     String tmpPath = '${tmp.path}/$nowString';
 
-    List<String> columnNames = [
-      "uid",
-      "App Name",
-      "Package Name",
-      "Amount",
-      "Create Time"
-    ];
+    List<String> columnNames = ["uid", "App Name", "Package Name", "Amount", "Create Time"];
 
     try {
       if (!Directory(tmpPath).existsSync()) {
@@ -154,8 +217,7 @@ class WatcherController extends GetxController {
         var recordList = exportRecords.getRange(start, end);
 
         for (var k = 0; k < columnNames.length; k++) {
-          final Range range =
-              sheet.getRangeByName('${String.fromCharCode(65 + k)}1');
+          final Range range = sheet.getRangeByName('${String.fromCharCode(65 + k)}1');
           range.setText(columnNames[k]);
           range.autoFit();
         }
@@ -164,8 +226,7 @@ class WatcherController extends GetxController {
           Record record = recordList.elementAt(r);
 
           for (var j = 0; j < columnNames.length; j++) {
-            final Range range =
-                sheet.getRangeByName('${String.fromCharCode(65 + j)}${2 + r}');
+            final Range range = sheet.getRangeByName('${String.fromCharCode(65 + j)}${2 + r}');
             switch (j) {
               case 0:
                 range.setText(record.uid);
@@ -193,10 +254,7 @@ class WatcherController extends GetxController {
         workbook.dispose();
       }
 
-      await ZipFile.createFromDirectory(
-          sourceDir: Directory(tmpPath),
-          zipFile: File('$documentsDirectory/$nowString.zip'),
-          recurseSubDirs: true);
+      await ZipFile.createFromDirectory(sourceDir: Directory(tmpPath), zipFile: File('$documentsDirectory/$nowString.zip'), recurseSubDirs: true);
       Fluttertoast.showToast(msg: 'Save to the $documentsDirectory');
     } catch (e) {
       Fluttertoast.showToast(msg: e.toString());

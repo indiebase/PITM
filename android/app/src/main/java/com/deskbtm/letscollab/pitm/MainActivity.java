@@ -1,4 +1,4 @@
-package com.deskbtm.letscollab.pitm;
+package com.deskbtm.indiebase.pitm;
 
 import io.flutter.embedding.android.FlutterActivity;
 

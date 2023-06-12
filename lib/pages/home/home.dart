@@ -21,14 +21,10 @@ class HomePage extends StatelessWidget {
                   children: [
                     SizedBox(
                       child: ElevatedButton.icon(
-                        onPressed: _watcherController.toggleNotificationService,
-                        icon: _watcherController.isListening.value
-                            ? const Icon(UniconsLine.record_audio)
-                            : const Icon(UniconsLine.play),
+                        onPressed: _watcherController.startNotificationService,
+                        icon: _watcherController.isListening.value ? const Icon(UniconsLine.record_audio) : const Icon(UniconsLine.play),
                         label: Text(
-                          _watcherController.isListening.value
-                              ? "${"Listening".tr}..."
-                              : "Start listening".tr,
+                          _watcherController.isListening.value ? "${"Listening".tr}..." : "Start listening".tr,
                           style: const TextStyle(fontSize: 16),
                         ),
                       ),
@@ -54,8 +50,7 @@ class HomePage extends StatelessWidget {
                       const SizedBox(width: 10),
                       Text(
                         '${element.amount}￥',
-                        style:
-                            const TextStyle(fontSize: 14, color: Colors.green),
+                        style: const TextStyle(fontSize: 14, color: Colors.green),
                       )
                     ],
                   ),
