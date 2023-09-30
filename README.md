@@ -22,7 +22,7 @@ It's a watcher client for [letscollab](https://github.com/deskbtm-letscollab/let
 | ---- | - |
 | <img width="200" src="https://user-images.githubusercontent.com/45007226/220536654-fcbbe390-8223-42e9-b982-2f37fc5d3868.png">  | <img width="200" src="https://user-images.githubusercontent.com/45007226/220536536-00015062-caeb-4db9-94e8-cf5ab694b89f.png">|
 
-## Note Bene
+## Nota Bene
 This app is not free. it needs your star or follow.
 
 ## License
